@@ -1,8 +1,8 @@
 import React, {useEffect, useState, ChangeEvent, FormEvent} from 'react'
 import './styles.css'
 import logo from '../../assets/logo.svg'
-import {FiArrowLeft} from 'react-icons/fi'
-import { Link, useHistory } from 'react-router-dom'
+import {FiArrowLeft, FiCheckCircle} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 import { Map, TileLayer, Marker } from 'react-leaflet'
 import api from '../../services/api'
 import axios from 'axios'
@@ -32,7 +32,7 @@ const CreatePoint = () => {
     whatsapp: ''
   })
 
-  const history = useHistory();
+ 
 
   const [items, setItems] = useState<Item[]>([])
 
@@ -49,6 +49,8 @@ const CreatePoint = () => {
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0 , 0])
 
   const [selectItems, setSelectedItems] = useState<number[]>([])
+
+  const [showCompleted, setShowCompleted] = useState(false)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -146,7 +148,7 @@ const CreatePoint = () => {
 
     alert('Ponto de coleta criado')
 
-    history.push('/');
+    setShowCompleted(true)
 
   }
 
@@ -262,6 +264,14 @@ const CreatePoint = () => {
           Cadastrar ponto de coleta
         </button>
       </form>
+      { showCompleted && (
+        <div className="completed">
+          <Link to='/'>
+            <FiCheckCircle/>
+          </Link>
+          <h1>Cadastro concluído com sucesso!</h1>
+        </div>
+      )}
     </div>
   )
 }
